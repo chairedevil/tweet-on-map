@@ -51,7 +51,7 @@
         var flightPath
         var map
         var lineSymbol = {
-            path: 'M 1,-1 0,0 -1,-1',
+            path: 'M -1,1 0,0 1,1',
             scale: 5,
             strokeColor: '#FF0000',
             strokeOpacity: 1,
@@ -69,11 +69,11 @@
             flightPath.setMap(null)
 
             flightPath = new google.maps.Polyline({
-                path: flightPlanCoordinates,
+                path: flightPlanCoordinates.reverse(),
                 geodesic: true,
                 icons: [{
                     icon: lineSymbol,
-                    offset: '100%'
+                    offset: '0%'
                 }],
                 strokeColor: '#FFF',
                 strokeOpacity: 1,
@@ -87,11 +87,11 @@
         function animateCircle(line) {
             var count = 0;
             window.setInterval(function() {
-                count = (count + 1) % 200;
+                count++;
 
                 var icons = line.get('icons');
                 
-                if((count%200) == 0){
+                /*if((count%200) == 0){
 
                     line.set('icons', 
                         [{
@@ -101,9 +101,9 @@
                     )
                     console.log(icons)
 
-                }
+                }*/
 
-                icons[0].offset = 100 - (count / 2) + '%';
+                icons[0].offset = count + '%';
 
                 icon = {
                     icon: {
@@ -113,7 +113,7 @@
                         strokeOpacity: 1,
                         strokeWeight: 2
                     },
-                    offset: 101 - (count / 2) + '%'
+                    offset: (count-1) + '%'
                 }
                 icons.push(icon)
 
