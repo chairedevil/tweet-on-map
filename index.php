@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="google-signin-client_id" content="426884727155-lkbio78170qu5qcaa7231ekdusuqfbnt.apps.googleusercontent.com">
     <title>Tweet on map</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.1/css/bulma.min.css">
     <link rel="stylesheet" type="text/css" href="css/style.css">
@@ -23,6 +24,9 @@
             <div class="column is-2">
                 <button class="button is-primary" id='searchBtn' style="width:100%;"><strong>Have Fun</strong></button>
             </div>
+            <div class="column is-2">
+                <div class="g-signin2" data-onsuccess="onSignIn"></div>
+            </div>
         </div>
         
         <div class="columns">
@@ -39,6 +43,15 @@
 
     <script>
         $(document).ready(function(){
+            function onSignIn(googleUser) {
+                var profile = googleUser.getBasicProfile();
+                console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
+                console.log('Name: ' + profile.getName());
+                console.log('Image URL: ' + profile.getImageUrl());
+                console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
+            }
+
+
             $('#searchBtn').click(function(){
 
                 getGeoOfPlace()
@@ -257,7 +270,7 @@
 
     </script>
 
-
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD_vlghBt3iKntZq1nVCR6uGVJuCk3hbdE"></script>
 </body>
