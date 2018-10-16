@@ -50,13 +50,6 @@
         var flightPlanCoordinates = [];
         var flightPath
         var map
-        var lineSymbol = {
-            path: 'M 1,-1 0,0 -1,-1',
-            scale: 5,
-            strokeColor: '#FF0000',
-            strokeOpacity: 1,
-            strokeWeight: 2
-        };
 
         $(document).ready(function(){
             $('#searchBtn').click(function(){
@@ -64,9 +57,15 @@
             });
         });
 
-        function animationPath(){
+        /*function animationPath(){
             console.log(flightPlanCoordinates)
-            flightPath.setMap(null)
+            //flightPath.setMap(null)
+
+            var lineSymbol = {
+                path: google.maps.SymbolPath.CIRCLE,
+                scale: 8,
+                strokeColor: '#393'
+            };
 
             flightPath = new google.maps.Polyline({
                 path: flightPlanCoordinates,
@@ -75,11 +74,11 @@
                     icon: lineSymbol,
                     offset: '100%'
                 }],
-                strokeColor: '#FFF',
-                strokeOpacity: 1,
-                strokeWeight: 1,
-                map: map
+                strokeColor: '#FF0000',
+                strokeOpacity: 0.5,
+                strokeWeight: 2
             });
+
             animateCircle(flightPath);
 
         }
@@ -90,36 +89,56 @@
                 count = (count + 1) % 200;
 
                 var icons = line.get('icons');
-                
-                if((count%200) == 0){
-
-                    line.set('icons', 
-                        [{
-                            icon: lineSymbol,
-                            offset: '100%'
-                        }]
-                    )
-                    console.log(icons)
-
-                }
-
-                icons[0].offset = 100 - (count / 2) + '%';
-
-                icon = {
-                    icon: {
-                        path: 'M 0,-1 0,1',
-                        scale: 5,
-                        strokeColor: '#FF0000',
-                        strokeOpacity: 1,
-                        strokeWeight: 2
-                    },
-                    offset: 101 - (count / 2) + '%'
-                }
-                icons.push(icon)
-
+                icons[0].offset = (count / 2) + '%';
                 line.set('icons', icons);
+            }, 20);
+        }*/
 
-            }, 50);
+        function animationPath(){
+            flightPath.setMap(null)
+
+            let cnt = 0;
+            var myInterval = setInterval(function(){
+                cnt++
+                insertPolyline();
+                if(cnt == 10){
+                    clearInterval(myInterval);
+                }
+            },200);
+
+        }
+
+        function insertPolyline(){
+            var lineSymbol = {
+                path: 'M 0,-1 0,1',
+                scale: 5,
+                strokeColor: '#FF0000'
+            };
+
+            flightPath = new google.maps.Polyline({
+                path: flightPlanCoordinates,
+                geodesic: true,
+                icons: [{
+                    icon: lineSymbol,
+                    offset: '0%'
+                }],
+                strokeColor: '#FFF',
+                strokeOpacity: 1,
+                strokeWeight: 1,
+                map: map
+            });
+            animateCircle(flightPath);
+        }
+
+        function animateCircle(line) {
+            var count = 0;
+            window.setInterval(function() {
+                count = (count + 1) % 200;
+
+                var icons = line.get('icons');
+                icons[0].offset = 100 - (count / 2) + '%';
+                line.set('icons', icons);
+            }, 20);
         }
 
     </script>

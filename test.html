@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+    <title>Animating Symbols</title>
+    <style>
+      /* Always set the map height explicitly to define the size of the div
+       * element that contains the map. */
+      #map {
+        height: 100%;
+      }
+      /* Optional: Makes the sample page fill the window. */
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="map"></div>
+    <script>
+      // This example adds an animated symbol to a polyline. 35.737327, 139.706515
+      
+      function initMap() {
+        var map = new google.maps.Map(document.getElementById('map'), {
+          center: {lat: 35.737327, lng: 139.706515},
+          zoom: 10,
+          mapTypeId: 'terrain'
+        });
+
+        // Define the symbol, using one of the predefined paths ('CIRCLE')
+        // supplied by the Google Maps JavaScript API.
+        var lineSymbol = {
+          path: 'M 0,1 0,1',
+          scale: 8,
+          strokeColor: '#393'
+        };
+
+        // Create the polyline and add the symbol to it via the 'icons' property.
+        var line = new google.maps.Polyline({
+          //path: [{lat: 22.291, lng: 153.027}, {lat: 18.291, lng: 153.027}],
+                path: [{lat: 35.76476135, lng: 140.38261414},
+                {lat: 35.764213, lng: 140.383043},
+                {lat: 35.7643326, lng: 140.3850553},
+                {lat: 35.77353396, lng: 140.38836211},
+                {lat: 35.77784919, lng: 140.31407565},
+                {lat: 35.68573162, lng: 140.20034865},
+                {lat: 35.56161589, lng: 139.72452706}],
+          icons: [{
+            icon: lineSymbol,
+            offset: '100%'
+          }],
+          map: map
+        });
+
+        animateCircle(line);
+      }
+
+      // Use the DOM setInterval() function to change the offset of the symbol
+      // at fixed intervals.
+      function animateCircle(line) {
+          var count = 0;
+          window.setInterval(function() {
+            count = (count + 1) % 200;
+
+            var icons = line.get('icons');
+            icons[0].offset = (count / 2) + '%';
+            line.set('icons', icons);
+        }, 20);
+      }
+    </script>
+    <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD_vlghBt3iKntZq1nVCR6uGVJuCk3hbdE&callback=initMap">
+    </script>
+  </body>
+</html>
