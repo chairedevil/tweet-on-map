@@ -103,7 +103,6 @@ function getUserTimeline(userId){
 
     axios.get(`lib/restServer.php?process=getusertimeline&user=${userId}`)
         .then(function ({data}) {
-            console.log(data)
 
             var uluru = {"lat":36.562551, "lng":136.121074};
             map = new google.maps.Map(

@@ -68,8 +68,10 @@
             console.log(flightPlanCoordinates)
             flightPath.setMap(null)
 
+            //let flightPlanCoordinatesRe = flightPlanCoordinates.slice().reverse()
+
             flightPath = new google.maps.Polyline({
-                path: flightPlanCoordinates.reverse(),
+                path: flightPlanCoordinates.slice().reverse(),
                 geodesic: true,
                 icons: [{
                     icon: lineSymbol,
@@ -87,35 +89,37 @@
         function animateCircle(line) {
             var count = 0;
             window.setInterval(function() {
-                count++;
+                count = (count+2) % 100;
 
                 var icons = line.get('icons');
-                
-                /*if((count%200) == 0){
+                //console.log(count, icons)
 
-                    line.set('icons', 
-                        [{
+                if(count == 0){
+
+                    icons = [
+                        {
                             icon: lineSymbol,
-                            offset: '100%'
-                        }]
-                    )
-                    console.log(icons)
+                            offset: '0%'
+                        }
+                    ]
 
-                }*/
+                }
 
                 icons[0].offset = count + '%';
 
-                icon = {
-                    icon: {
-                        path: 'M 0,-1 0,1',
-                        scale: 5,
-                        strokeColor: '#FF0000',
-                        strokeOpacity: 1,
-                        strokeWeight: 2
-                    },
-                    offset: (count-1) + '%'
+                if(count > 3){
+                    icon = {
+                        icon: {
+                            path: 'M 0,-1 0,1',
+                            scale: 5,
+                            strokeColor: '#FF0000',
+                            strokeOpacity: 1,
+                            strokeWeight: 2
+                        },
+                        offset: (count-2) + '%'
+                    }
+                    icons.push(icon)
                 }
-                icons.push(icon)
 
                 line.set('icons', icons);
 
